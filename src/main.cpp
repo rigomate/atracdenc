@@ -311,8 +311,6 @@ int main_(int argc, char* const* argv)
         }
 
     }
-    argc -= optind;
-    argv += optind;
 
     if (inFile.empty()) {
         cerr << "No input file" << endl;
