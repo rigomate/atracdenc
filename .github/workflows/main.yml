@@ -1,0 +1,23 @@
+name: make-master
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          fetch-depth: 1
+      - name: Run Makefile
+        run: |
+          sudo apt-get update
+          sudo apt-get install gcc g++ cmake libsndfile1-dev clang-tidy
+          mkdir build && cd build && cmake .. -DRUN_CLANG_TIDY=ON && cmake --build .
+      - name: Process clang-tidy warnings
+        uses: asarium/clang-tidy-action@v1
+        with:
+          fixesFile: build/src/clang-fixes.yaml
